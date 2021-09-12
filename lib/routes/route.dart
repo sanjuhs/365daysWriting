@@ -25,8 +25,8 @@ Route<dynamic> controller(RouteSettings settings){
       return MaterialPageRoute(builder: (context) => LandingScreen());
     case underConstructionScreen:
       return MaterialPageRoute(builder: (context) => UnderConstruction());
-    case writingScreen:
-      return MaterialPageRoute(builder: (context) =>  WritingScreen());
+    // case writingScreen:
+    //   return MaterialPageRoute(builder: (context) =>  WritingScreen());
     default:{
       print('Invalid route, default case executing..');
       return MaterialPageRoute(builder: (context) => LandingScreen());

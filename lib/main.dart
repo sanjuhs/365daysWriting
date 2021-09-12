@@ -1,12 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:myapp9_365dayswriting/models/carddata.dart';
+import 'package:myapp9_365dayswriting/providers/cards_provider.dart';
+import 'package:provider/provider.dart';
 
 import 'package:myapp9_365dayswriting/screens/landing_screen.dart';
 import 'routes/route.dart' as route;
 
-void main() {
+import 'package:intl/intl.dart';
+
+Future main() async{
   //set portrait as the preferred orientation
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Hive.initFlutter();
+
+  Hive.registerAdapter(CardDataAdapter());
+
+  await Hive.openBox<CardData>('cardData');
+
+  // var format = DateFormat.yMd('ar');
+  // var dateString = format.format(DateTime.now());
+  // print(dateString);
+
+  // DateTime test = DateTime.parse('20210915');
+  // print(DateFormat('d-MMM-y').format(test));
+
   runApp(MyApp());
 }
 
@@ -15,24 +38,32 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: '365 Days Writing',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        accentColor: Colors.blueGrey.shade100,
-        // cardColor: Colors.blue,
-        iconTheme: IconThemeData(color: Colors.black),
-        fontFamily: 'Georgia',
-        textTheme:  TextTheme(
-          headline1: TextStyle(fontSize: 72.0,fontWeight: FontWeight.bold),
-          headline2: TextStyle(fontSize: 32.0),
-          bodyText1: TextStyle(fontSize: 20.0),
-        )
+    return MultiProvider(
+      providers:[
+        ChangeNotifierProvider(
+          create: (ctx) => CardsProvider(),
+        ),
+      ],
+          child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: '365 Days Writing',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          accentColor: Colors.blueGrey.shade100,
+          // cardColor: Colors.blue,
+          iconTheme: IconThemeData(color: Colors.black),
+          fontFamily: 'Georgia',
+          textTheme:  TextTheme(
+            headline1: TextStyle(fontSize: 72.0,fontWeight: FontWeight.bold),
+            headline2: TextStyle(fontSize: 32.0),
+            bodyText1: TextStyle(fontSize: 20.0),
+            bodyText2: TextStyle(fontSize: 14.0),
+          )
+        ),
+        home: LandingScreen(),
+        onGenerateRoute: route.controller,
+        initialRoute: route.landingScreen,
       ),
-      home: LandingScreen(),
-      onGenerateRoute: route.controller,
-      initialRoute: route.landingScreen,
     );
   }
 }

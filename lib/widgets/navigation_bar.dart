@@ -17,7 +17,7 @@ class NavigationBar extends StatelessWidget {
     void _onItemTapped(int index){
      switch(index){
        case 0: {
-         Navigator.pushNamed(context, route.cardListScreen);
+         Navigator.pushNamed(context, route.underConstructionScreen);
          break;
        }
        case 1: {
