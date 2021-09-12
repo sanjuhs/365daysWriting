@@ -32,7 +32,7 @@ class _SingleCardState extends State<SingleCard> {
               widget.cardWidth > 420 ? 
               Center(
                 child: SvgPicture.asset(
-                  'images/fox1bg.svg',
+                  'assets/images/fox1bg.svg',
                   fit: BoxFit.fill,
                   width: 600,
                   
@@ -41,7 +41,7 @@ class _SingleCardState extends State<SingleCard> {
               :
               Center(
                 child: SvgPicture.asset(
-                  'images/fox1bg.svg',
+                  'assets/images/fox1bg.svg',
                   fit: BoxFit.fill,
                 ),
               ),

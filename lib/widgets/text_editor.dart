@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:myapp9_365dayswriting/providers/editorprovider.dart';
 import 'package:myapp9_365dayswriting/widgets/smart_textfield.dart';
 import 'package:myapp9_365dayswriting/widgets/toolbar_editor.dart';
@@ -18,16 +19,20 @@ bool showToolbar = false;
 @override
 void initState() { 
   super.initState();
-  // KeyboardVisibilityNotification().addNewListener(
-  //   onChange: (isVisible) {
-  //     if (!isVisible) {
-  //       FocusScope.of(context).unfocus();
-  //     }
-  //     setState(() {
-  //       showToolbar = isVisible;
-  //     });
-  //   },
-  // );
+   var keyboardVisibilityController = KeyboardVisibilityController();
+  // Query
+  print('Keyboard visibility direct query: ${keyboardVisibilityController.isVisible}');
+
+  // Subscribe
+  keyboardVisibilityController.onChange.listen((bool visible) {
+    print('Keyboard visibility update. Is visible: ${visible}');
+    if (!visible) {
+        FocusScope.of(context).unfocus();
+      }
+      setState(() {
+        showToolbar = visible;
+      });
+  });
 }
 
 @override
