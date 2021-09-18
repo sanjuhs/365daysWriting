@@ -25,6 +25,7 @@ class _WritingScreenState extends State<WritingScreen> {
   void initState() {
     //Read from database to see if anything exists
     final myBox = Boxes.getData();
+    print(widget.dateString);
     final myCardData = myBox.get(widget.dateString);
 
     
@@ -32,6 +33,13 @@ class _WritingScreenState extends State<WritingScreen> {
     if (myCardData != null) {
       var myJSON = jsonDecode(myCardData.jsonText);
       print(myJSON);
+      _controller = QuillController(
+          document: Document.fromJson(myJSON),
+          selection: TextSelection.collapsed(offset: 0));
+    }
+    else{
+      //if nothing is found under that date, insert empty doc
+      var myJSON = [{"insert":"\n"}];
       _controller = QuillController(
           document: Document.fromJson(myJSON),
           selection: TextSelection.collapsed(offset: 0));
@@ -62,11 +70,13 @@ class _WritingScreenState extends State<WritingScreen> {
     final box = Boxes.getData();
     box.put(widget.dateString, cardDataTemplate);
 
+    print(widget.dateString);
+
     //retrieve the data through key (Read operation)
     final myBox = Boxes.getData();
     final myCardData = myBox.get(widget.dateString);
 
-    myCardData == null ? print(myCardData!.jsonText) : print('null');
+    print(myCardData!.jsonText);
 
     Navigator.pushNamed(context, route.landingScreen);
   }
